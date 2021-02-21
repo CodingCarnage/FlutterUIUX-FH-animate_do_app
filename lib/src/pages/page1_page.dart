@@ -14,28 +14,36 @@ class Page1Page extends StatelessWidget {
     final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Animate_do'),
+        title: FadeIn(
+          delay: Duration(milliseconds: 500),
+          child: Text('Animate_do'),
+        ),
         actions: <Widget>[
           IconButton(
             icon: FaIcon(FontAwesomeIcons.twitter),
             onPressed: () {},
           ),
-          IconButton(
-            icon: FaIcon(FontAwesomeIcons.chevronRight),
-            onPressed: () {
-              Navigator.push(
-                context,
-                CupertinoPageRoute(
-                  builder: (BuildContext context) => Page1Page(),
-                ),
-              );
-            },
+          SlideInLeft(
+            from: 100,
+            child: IconButton(
+              icon: FaIcon(FontAwesomeIcons.chevronRight),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                    builder: (BuildContext context) => Page1Page(),
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: FaIcon(FontAwesomeIcons.play),
+      floatingActionButton: ElasticInRight(
+        child: FloatingActionButton(
+          onPressed: () {},
+          child: FaIcon(FontAwesomeIcons.play),
+        ),
       ),
       body: Center(
         child: Column(
