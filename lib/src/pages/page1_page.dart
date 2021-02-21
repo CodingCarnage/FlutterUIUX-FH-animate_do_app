@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'package:animate_do_app/src/pages/twitter_page.dart';
+
 class Page1Page extends StatelessWidget {
   const Page1Page({Key key}) : super(key: key);
 
@@ -21,7 +23,14 @@ class Page1Page extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: FaIcon(FontAwesomeIcons.twitter),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => TwitterPage(),
+                  ),
+                );
+            },
           ),
           SlideInLeft(
             from: 100,
