@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Page1Page extends StatelessWidget {
@@ -7,8 +9,9 @@ class Page1Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size textSize = _textSize('Subtitle', Theme.of(context).textTheme.subtitle1);
-
+    final Size textSize =
+        _textSize('Subtitle', Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.w400));
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: Text('Animate_do'),
@@ -19,7 +22,14 @@ class Page1Page extends StatelessWidget {
           ),
           IconButton(
             icon: FaIcon(FontAwesomeIcons.chevronRight),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (BuildContext context) => Page1Page(),
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -31,22 +41,35 @@ class Page1Page extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(
-              Icons.new_releases,
-              color: Colors.blue,
+            ElasticIn(
+              delay: Duration(milliseconds: 1100),
+              child: Icon(
+                Icons.new_releases,
+                color: Colors.blue,
+                size: screenHeight * 0.0375,
+              ),
             ),
-            Text(
-              'Title',
-              style: Theme.of(context).textTheme.headline3,
+            FadeInDown(
+              delay: Duration(milliseconds: 200),
+              child: Text(
+                'Title',
+                style: Theme.of(context).textTheme.headline2.copyWith(fontWeight: FontWeight.w200),
+              ),
             ),
-            Text(
-              'Subtitle',
-              style: Theme.of(context).textTheme.subtitle1,
+            FadeInDown(
+              delay: Duration(milliseconds: 800),
+              child: Text(
+                'Subtitle',
+                style: Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.w400),
+              ),
             ),
-            Container(
-              width: textSize.width + 10,
-              height: 2.0,
-              color: Colors.blue,
+            FadeInLeft(
+              delay: Duration(milliseconds: 1100),
+              child: Container(
+                width: textSize.width + 10,
+                height: 2.0,
+                color: Colors.blue,
+              ),
             ),
           ],
         ),
@@ -55,9 +78,9 @@ class Page1Page extends StatelessWidget {
   }
 
   Size _textSize(String text, TextStyle style) {
-    final TextPainter textPainter = TextPainter(
-        text: TextSpan(text: text, style: style), maxLines: 1, textDirection: TextDirection.ltr)
-      ..layout(minWidth: 0, maxWidth: double.infinity);
+    final TextPainter textPainter =
+        TextPainter(text: TextSpan(text: text, style: style), maxLines: 1, textDirection: TextDirection.ltr)
+          ..layout(minWidth: 0, maxWidth: double.infinity);
     return textPainter.size;
   }
 }
