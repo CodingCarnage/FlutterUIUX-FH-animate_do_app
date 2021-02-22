@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class NavigationPage extends StatelessWidget {
   const NavigationPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Notifications Page'),
-        backgroundColor: Colors.pink,
+    return ChangeNotifierProvider(
+      create: (_) => _NotificationModel(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Notifications Page'),
+          backgroundColor: Colors.pink,
+        ),
+        floatingActionButton: _FloatingButton(),
+        bottomNavigationBar: _BottomNavigation(),
       ),
-      floatingActionButton: _FloatingButton(),
-      bottomNavigationBar: _BottomNavigation(),
     );
   }
 }
@@ -24,7 +28,11 @@ class _FloatingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () {},
+      onPressed: () {
+        int number = Provider.of<_NotificationModel>(context, listen: false).numberNotifications;
+        number++;
+        Provider.of<_NotificationModel>(context, listen: false).numberNotifications = number;
+      },
       child: FaIcon(FontAwesomeIcons.play),
       backgroundColor: Colors.pinkAccent,
     );
@@ -36,6 +44,7 @@ class _BottomNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final int number = Provider.of<_NotificationModel>(context).numberNotifications;
     return BottomNavigationBar(
       currentIndex: 0,
       selectedItemColor: Colors.pink,
@@ -60,7 +69,7 @@ class _BottomNavigation extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   child: Text(
-                    '6',
+                    '$number',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 7.5,
@@ -78,5 +87,16 @@ class _BottomNavigation extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class _NotificationModel extends ChangeNotifier {
+  int _numberNotifications = 0;
+
+  int get numberNotifications => this._numberNotifications;
+
+  set numberNotifications(int numberNotifications) {
+    this._numberNotifications = numberNotifications;
+    notifyListeners();
   }
 }
