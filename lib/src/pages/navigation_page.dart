@@ -120,5 +120,6 @@ class _NotificationModel extends ChangeNotifier {
 
   set bounceController(AnimationController bounceController) {
     this._bounceController = bounceController;
+    //! Aqui no se tiene que colocar notifyListeners.
   }
 }
