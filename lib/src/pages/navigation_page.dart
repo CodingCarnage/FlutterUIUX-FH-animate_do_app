@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -32,6 +33,11 @@ class _FloatingButton extends StatelessWidget {
         int number = Provider.of<_NotificationModel>(context, listen: false).numberNotifications;
         number++;
         Provider.of<_NotificationModel>(context, listen: false).numberNotifications = number;
+
+        if(number >= 2) {
+          AnimationController contoller = Provider.of<_NotificationModel>(context, listen: false).bounceController;
+          contoller.forward(from: 0.0);
+        }
       },
       child: FaIcon(FontAwesomeIcons.play),
       backgroundColor: Colors.pinkAccent,
@@ -60,19 +66,27 @@ class _BottomNavigation extends StatelessWidget {
               Positioned(
                 top: 0.0,
                 right: 0.0,
-                child: Container(
-                  width: 12.0,
-                  height: 12.0,
-                  decoration: BoxDecoration(
-                    color: Colors.redAccent,
-                    shape: BoxShape.circle,
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    '$number',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 7.5,
+                child: BounceInDown(
+                  from: 10,
+                  animate: number > 0 ? true : false,
+                  child: Bounce(
+                    from: 10,
+                    controller: (controller) => Provider.of<_NotificationModel>(context).bounceController = controller,
+                    child: Container(
+                      width: 12.0,
+                      height: 12.0,
+                      decoration: BoxDecoration(
+                        color: Colors.redAccent,
+                        shape: BoxShape.circle,
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        '$number',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 7.5,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -98,5 +112,13 @@ class _NotificationModel extends ChangeNotifier {
   set numberNotifications(int numberNotifications) {
     this._numberNotifications = numberNotifications;
     notifyListeners();
+  }
+
+  AnimationController _bounceController;
+
+  AnimationController get bounceController => this._bounceController;
+
+  set bounceController(AnimationController bounceController) {
+    this._bounceController = bounceController;
   }
 }
